@@ -69,9 +69,13 @@ export async function getApps(): Promise<GetAppsResponse> {
 /**
  * Get reviews for a specific app
  * @param appId - The AppStore Application ID
+ * @param updatedMin - Optional minimum update date filter (ISO string)
  * @returns Promise<GetReviewsResponse> - List of reviews for the app
  */
-export async function getReviews(appId: number): Promise<GetReviewsResponse> {
-  return apiRequest<GetReviewsResponse>(`/api/reviews/${appId}`);
+export async function getReviews(appId: number, updatedMin?: string): Promise<GetReviewsResponse> {
+  const url = updatedMin
+    ? `/api/reviews/${appId}?updated_min=${encodeURIComponent(updatedMin)}`
+    : `/api/reviews/${appId}`;
+  return apiRequest<GetReviewsResponse>(url);
 }
 
